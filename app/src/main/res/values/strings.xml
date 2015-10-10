@@ -6,6 +6,35 @@
     <string name="title_section3">Section 3</string>
 
     <string name="derp">derp</string>
-
+    <string name="mute">Mute</string>
     <string name="action_settings">Settings</string>
+
+    <string-array name="channelNames">
+        <item> Select Channel </item>
+        <item> Blu-ray Dvd    </item>
+        <item> Game           </item>
+        <item> Satellite      </item>
+        <item> Video          </item>
+        <item> TV             </item>
+        <item> SA/CD          </item>
+        <item> FM Tuner       </item>
+        <item> AM Tuner       </item>
+        <item> USB            </item>
+        <item> Bluetooth      </item>
+    </string-array>
+
+    <string-array name="channelBytes">
+        <item>                </item>
+        <item> 0204a042001b00 </item>
+        <item> 0204a042001c00 </item>
+        <item> 0204a042001600 </item>
+        <item> 0204a042001000 </item>
+        <item> 0204a042001a00 </item>
+        <item> 0204a042000200 </item>
+        <item> 0204a042002e00 </item>
+        <item> 0204a042002f00 </item>
+        <item> 0204a042003400 </item>
+        <item> 0204a042003400 </item>
+    </string-array>
+
 </resources>

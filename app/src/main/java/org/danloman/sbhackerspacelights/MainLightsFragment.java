@@ -1,6 +1,5 @@
 package org.danloman.sbhackerspacelights;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
@@ -13,7 +12,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 
-public class MainLightsFragment extends Fragment {
+public class MainLightsFragment extends Fragment implements ButtonFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -23,8 +22,10 @@ public class MainLightsFragment extends Fragment {
 
         mClassroomLightsButton = (Button) rootView.findViewById(R.id.ClassroomLightsButton);
         mWorkroomLightsButton = (Button) rootView.findViewById(R.id.WorkroomLightsButton);
-        mClassroomLightsButtonHandler = new ButtonHandler(this, "http://classroom-lights.west.sbhackerspace.com/", "classroom");
-        mWorkroomLightsButtonHandler = new ButtonHandler(this, "http://workroom-lights.west.sbhackerspace.com/", "workroom");
+        mClassroomLightsButtonHandler =
+                new ButtonHandler(this, "http://classroom-lights.west.sbhackerspace.com/", "classroom", "Lights", "lights");
+        mWorkroomLightsButtonHandler =
+                new ButtonHandler(this, "http://workroom-lights.west.sbhackerspace.com/", "workroom", "Lights", "lights");
         mClassroomLightsButton.setOnClickListener(lightsListener);
         mWorkroomLightsButton.setOnClickListener(lightsListener);
 
@@ -48,6 +49,7 @@ public class MainLightsFragment extends Fragment {
         }
     };
 
+    @Override
     public void setButtonText(final String room, final String buttonText)
     {
         getActivity().runOnUiThread(

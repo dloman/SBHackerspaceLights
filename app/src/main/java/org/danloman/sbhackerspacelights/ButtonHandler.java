@@ -12,15 +12,17 @@ import org.json.JSONObject;
  * Created by dlom on 7/23/15.
  */
 public class ButtonHandler {
-    public ButtonHandler(MainLightsFragment mainLightsFragment, final String Url, String room) {
-        mMainLightsFragment = mainLightsFragment;
+    public ButtonHandler(ButtonFragment Fragment, final String Url, String room, String type, String field) {
+        mFragment = Fragment;
         mRoom = room;
         mUrl = Url;
-        mMainLightsFragment.setButtonText(mRoom, "Connecting to Server");
-        makeRequest(Url + "status");
+        mType = type;
+        mField = field;
+        mFragment.setButtonText(mRoom, "Connecting to Server");
+        makeRequest(Url + "status", field);
     }
 
-    private void makeRequest(final String url) {
+    private void makeRequest(final String url, final String field) {
         Thread requestThread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -31,15 +33,13 @@ public class ButtonHandler {
                     HttpGet httpGet = new HttpGet(url);
                     HttpResponse httpResponse = httpClient.execute(httpGet);
                     JSONObject jsonObject = new JSONObject(EntityUtils.toString(httpResponse.getEntity()));
-                    if (jsonObject.get("lights").equals("1")) {
-                        setStatus("off");
-                    } else if (jsonObject.get("lights").equals("0")) {
-                        setStatus("on");
-                    } else {
-                        setStatus("on");
-                        MainActivity.showToast();
+                    if (jsonObject.has(field)) {
+                        if (jsonObject.getBoolean(field)) {
+                            setStatus("off");
+                        } else {
+                            setStatus("on");
+                        }
                     }
-
                 } catch (Exception e) {
                     setStatus("down");
                 }
@@ -50,23 +50,23 @@ public class ButtonHandler {
 
     public void toggleButton() {
         if (mStatus.contains("on")) {
-            makeRequest(mUrl + "on");
+            makeRequest(mUrl + "on", mField);
         }
         else {
-            makeRequest(mUrl + "off");
+            makeRequest(mUrl + "off", mField);
         }
     }
 
 
     private void setStatus(String status){
         if (status.equals("down")) {
-            mMainLightsFragment.setButtonText(mRoom, "Cannot connect to " + mRoom + " Lights :(");
+            mFragment.setButtonText(mRoom, "Cannot connect to " + mRoom + mType + " :(");
         } else {
-            mMainLightsFragment.setButtonText(mRoom, "Turn " + mRoom + " Lights " + status);
+            mFragment.setButtonText(mRoom, "Turn " + mRoom + " " + mType + " " + status);
         }
         mStatus = status;
     }
 
-    private String mRoom, mUrl, mStatus;
-    private MainLightsFragment mMainLightsFragment;
+    private String mRoom, mUrl, mStatus, mType, mField;
+    private ButtonFragment mFragment;
 }
